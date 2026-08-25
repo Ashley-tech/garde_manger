@@ -1,13 +1,15 @@
 package com.example.garde_manger_back.service;
 
+import java.util.List;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.garde_manger_back.dto.CompteDTO;
 import com.example.garde_manger_back.entity.Compte;
 import com.example.garde_manger_back.entity.Produit;
-import com.example.garde_manger_back.repository.*;
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.garde_manger_back.dto.CompteDTO;
-
-import java.util.List;
+import com.example.garde_manger_back.repository.CompteRepository;
+import com.example.garde_manger_back.repository.ProduitRepository;
 
 @Service
 public class CompteService {
@@ -62,6 +64,11 @@ public class CompteService {
 
         if (dto.getEmail() != null) {
             compte.setEmail(dto.getEmail());
+        }
+
+        if (dto.getMdp() != null && !dto.getMdp().isBlank()){
+            compte.setMdp(dto.getMdp());
+            compte.setMdpCrypted(passwordEncoder.encode(dto.getMdp()));
         }
 
         if (dto.getAdresse() != null) {
