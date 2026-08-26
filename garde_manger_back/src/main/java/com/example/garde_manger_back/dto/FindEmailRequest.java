@@ -1,5 +1,5 @@
 package com.example.garde_manger_back.dto;
 
-public class EmailRequest {
+public class FindEmailRequest {
     public String email;
 }

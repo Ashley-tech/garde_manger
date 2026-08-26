@@ -1,9 +1,7 @@
 package com.example.garde_manger_back.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import com.example.garde_manger_back.dto.LoginResponse;
@@ -35,5 +33,16 @@ public class AuthService {
         }
 
         return new LoginResponse(true, "Connexion réussie", user.getId());
+    }
+
+    public LoginResponse find(String email) {
+
+        Compte user = compteRepository.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            return new LoginResponse(false, "Email introuvable", null);
+        }
+
+        return new LoginResponse(true, "Email trouvé", user.getId());
     }
 }

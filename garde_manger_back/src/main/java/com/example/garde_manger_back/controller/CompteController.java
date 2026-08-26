@@ -3,13 +3,17 @@ package com.example.garde_manger_back.controller;
 import com.example.garde_manger_back.entity.Compte;
 import com.example.garde_manger_back.entity.Produit;
 import com.example.garde_manger_back.service.CompteService;
+import com.example.garde_manger_back.config.AuthService;
+import com.example.garde_manger_back.dto.FindEmailRequest;
 
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import com.example.garde_manger_back.dto.CompteDTO;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.garde_manger_back.dto.LoginResponse;
 
 @RestController
 @RequestMapping("/comptes")
@@ -17,10 +21,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CompteController {
     private final CompteService compteService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
-    public CompteController(CompteService compteService, PasswordEncoder passwordEncoder) {
+    public CompteController(CompteService compteService, PasswordEncoder passwordEncoder, AuthService authService) {
         this.compteService = compteService;
         this.passwordEncoder = passwordEncoder;
+        this.authService = authService;
     }
     
     @GetMapping
@@ -52,5 +58,10 @@ public class CompteController {
     @DeleteMapping("/{id}")
     public void deleteCompte(@PathVariable Integer id){
         compteService.deleteCompte(id);
+    }
+
+    @PostMapping("/forgot-password")
+    public LoginResponse find(@RequestBody FindEmailRequest request) {
+        return authService.find(request.email);
     }
 }
