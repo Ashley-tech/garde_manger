@@ -41,6 +41,10 @@ public class Produit {
         return proprietaire;
     }
 
+    public void setProprietaire(Compte proprietaire){
+        this.proprietaire = proprietaire;
+    }
+
     public String getLibelle(){
         return libelle;
     }

@@ -9,6 +9,15 @@ public class ProduitDTO {
     private LocalDate dateConsommation;
     private LocalDate datePeremption;
     private String etat;
+    private Integer proprietaireId;
+
+    public Integer getProprietaireId(){
+        return proprietaireId;
+    }
+
+    public void setProprietaireId(Integer proprietaireId){
+        this.proprietaireId = proprietaireId;
+    }
 
     public String getLibelle(){
         return libelle;

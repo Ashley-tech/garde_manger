@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import com.example.garde_manger_back.dto.ProduitDTO;
-import com.example.garde_manger_back.repository.ProduitRepository;
 
 @RestController
 @RequestMapping("/produits")
@@ -16,7 +15,6 @@ import com.example.garde_manger_back.repository.ProduitRepository;
 public class ProduitController {
 
     private final ProduitService produitService;
-    private ProduitRepository produitRepository;
 
     public ProduitController(ProduitService produitService) {
         this.produitService = produitService;
@@ -33,7 +31,7 @@ public class ProduitController {
     }
 
     @PostMapping
-    public Produit createProduit(@RequestBody Produit produit) {
+    public Produit createProduit(@RequestBody ProduitDTO produit) {
         return produitService.createProduit(produit);
     }
 
@@ -42,37 +40,8 @@ public class ProduitController {
         produitService.deleteProduit(id);
     }
 
-    public Produit modifierProduit(Integer id,ProduitDTO dto) {
-
-        Produit produit = produitRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Produit introuvable")
-                );
-
-        if (dto.getLibelle() != null) {
-            produit.setLibelle(dto.getLibelle());
-        }
-
-        if (dto.getMarque() != null) {
-            produit.setMarque(dto.getMarque());
-        }
-
-        if (dto.getType() != null) {
-            produit.setType(dto.getType());
-        }
-
-        if (dto.getDateConsommation() != null) {
-            produit.setDateConsommation(dto.getDateConsommation());
-        }
-
-        if (dto.getDatePeremption() != null) {
-            produit.setDatePeremption(dto.getDatePeremption());
-        }
-
-        if (dto.getEtat() != null) {
-            produit.setEtat(dto.getEtat());
-        }
-
-        return produitRepository.save(produit);
+    @PatchMapping("/{id}")
+    public Produit modifierProduit(@PathVariable Integer id,@RequestBody ProduitDTO dto) {
+        return produitService.modifierProduit(id,dto);
     }
 }

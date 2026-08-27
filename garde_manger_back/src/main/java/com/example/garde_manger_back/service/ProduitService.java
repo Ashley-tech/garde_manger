@@ -1,7 +1,8 @@
 package com.example.garde_manger_back.service;
 
+import com.example.garde_manger_back.entity.Compte;
 import com.example.garde_manger_back.entity.Produit;
-import com.example.garde_manger_back.repository.ProduitRepository;
+import com.example.garde_manger_back.repository.*;
 
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import com.example.garde_manger_back.dto.ProduitDTO;
 public class ProduitService {
 
     private final ProduitRepository produitRepository;
+    private final CompteRepository compteRepository;
 
-    public ProduitService(ProduitRepository produitRepository) {
+    public ProduitService(ProduitRepository produitRepository, CompteRepository compteRepository) {
         this.produitRepository = produitRepository;
+        this.compteRepository = compteRepository;
     }
 
     public List<Produit> getAllProduits() {
@@ -27,7 +30,23 @@ public class ProduitService {
                 .orElseThrow(() -> new RuntimeException("Produit introuvable"));
     }
 
-    public Produit createProduit(Produit produit) {
+    public Produit createProduit(ProduitDTO dto) {
+        Produit produit = new Produit();
+
+        produit.setLibelle(dto.getLibelle());
+        produit.setMarque(dto.getMarque());
+        produit.setType(dto.getType());
+        produit.setDateConsommation(dto.getDateConsommation());
+        produit.setDatePeremption(dto.getDatePeremption());
+        produit.setEtat(dto.getEtat());
+
+        Compte compte = compteRepository.findById(dto.getProprietaireId())
+                .orElseThrow(() ->
+                        new RuntimeException("Compte introuvable")
+                );
+
+        produit.setProprietaire(compte);
+
         return produitRepository.save(produit);
     }
 
@@ -64,6 +83,14 @@ public class ProduitService {
 
         if (dto.getEtat() != null) {
             produit.setEtat(dto.getEtat());
+        }
+
+        if (dto.getProprietaireId() != null) {
+            Compte compte = compteRepository.findById(dto.getProprietaireId())
+                        .orElseThrow(() ->
+                                new RuntimeException("Compte introuvable")
+                        );
+            produit.setProprietaire(compte);
         }
 
         return produitRepository.save(produit);
