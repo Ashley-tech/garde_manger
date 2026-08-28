@@ -8,5 +8,6 @@ import java.util.List;
 public interface ProduitRepository extends JpaRepository<Produit, Integer> {
 
     List<Produit> findByProprietaireId(Integer proprietaireId);
+    void deleteByProprietaireId(Integer compteId);
 
 }

@@ -45,6 +45,12 @@ public class CompteService {
     }
 
     public void deleteCompte(Integer id) {
+        if (!compteRepository.existsById(id)) {
+            throw new RuntimeException("Compte introuvable");
+        }
+
+        produitRepository.deleteByProprietaireId(id);
+
         compteRepository.deleteById(id);
     }
 
