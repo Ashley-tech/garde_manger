@@ -11,6 +11,8 @@ import com.example.garde_manger_back.entity.Produit;
 import com.example.garde_manger_back.repository.CompteRepository;
 import com.example.garde_manger_back.repository.ProduitRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class CompteService {
 
@@ -44,6 +46,7 @@ public class CompteService {
         return compteRepository.save(compte);
     }
 
+    @Transactional
     public void deleteCompte(Integer id) {
         if (!compteRepository.existsById(id)) {
             throw new RuntimeException("Compte introuvable");

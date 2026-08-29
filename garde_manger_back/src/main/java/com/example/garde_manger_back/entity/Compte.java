@@ -1,6 +1,7 @@
 package com.example.garde_manger_back.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,6 +51,7 @@ public class Compte {
     private String fonction;
 
     @OneToMany(mappedBy = "proprietaire")
+    @JsonIgnore
     private List<Produit> produits;
 
     public Integer getId(){
