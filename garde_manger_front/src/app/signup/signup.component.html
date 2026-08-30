@@ -1,0 +1,283 @@
+<div class="signup-page">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <span class="brand">Garde-manger</span>
+    </div>
+  </nav>
+
+
+  <!-- Zone centrale scrollable -->
+  <main class="main-content">
+
+    <div class="signup-card">
+
+      <h1>Inscription</h1>
+
+      <p class="subtitle">
+        Créez votre compte
+      </p>
+
+
+      <form (submit)="validate($event)">
+
+        <!-- Nom -->
+        <div class="form-group">
+          <label for="lastName">Nom*</label>
+
+          <input
+            id="lastName"
+            type="text"
+            name="lastName"
+            placeholder="Entrez votre nom"
+            required
+          />
+        </div>
+
+
+        <!-- Prénom -->
+        <div class="form-group">
+          <label for="firstName">Prénom*</label>
+
+          <input
+            id="firstName"
+            type="text"
+            name="firstName"
+            placeholder="Entrez votre prénom"
+            required
+          />
+        </div>
+
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email*</label>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Entrez votre email"
+            required
+          />
+        </div>
+
+
+        <!-- Confirmation Email -->
+        <div class="form-group">
+          <label for="emailConfirmation">
+            Email (à reconfirmer)*
+          </label>
+
+          <input
+            id="emailConfirmation"
+            type="email"
+            name="emailConfirmation"
+            placeholder="Confirmez votre email"
+            required
+          />
+        </div>
+
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password">
+            Mot de passe*
+          </label>
+
+          <div class="password-container">
+
+            <input
+              id="password"
+              [type]="passwordVisible ? 'text' : 'password'"
+              name="password"
+              placeholder="Entrez votre mot de passe"
+              required
+            />
+
+            <button
+              type="button"
+              class="show-password-button"
+              (click)="togglePassword()"
+            >
+              {{ passwordVisible ? 'Masquer' : 'Afficher' }}
+            </button>
+
+          </div>
+        </div>
+
+
+        <!-- Confirmation Mot de passe -->
+        <div class="form-group">
+          <label for="passwordConfirmation">
+            Mot de passe (à reconfirmer)*
+          </label>
+
+          <div class="password-container">
+
+            <input
+              id="passwordConfirmation"
+              [type]="passwordConfirmationVisible ? 'text' : 'password'"
+              name="passwordConfirmation"
+              placeholder="Confirmez votre mot de passe"
+              required
+            />
+
+            <button
+              type="button"
+              class="show-password-button"
+              (click)="togglePasswordConfirmation()"
+            >
+              {{ passwordConfirmationVisible ? 'Masquer' : 'Afficher' }}
+            </button>
+
+          </div>
+        </div>
+
+
+        <!-- Date de naissance -->
+        <div class="form-group">
+          <label for="birthDate">
+            Date de naissance*
+          </label>
+
+          <input
+            id="birthDate"
+            type="date"
+            name="birthDate"
+            required
+          />
+        </div>
+
+
+        <!-- Adresse -->
+        <div class="form-group">
+          <label for="address">Adresse</label>
+
+          <input
+            id="address"
+            type="text"
+            name="address"
+            placeholder="Entrez votre adresse"
+          />
+        </div>
+
+
+        <!-- Complément d'adresse -->
+        <div class="form-group">
+          <label for="addressComplement">
+            Complément d'adresse
+          </label>
+
+          <input
+            id="addressComplement"
+            type="text"
+            name="addressComplement"
+            placeholder="Appartement, bâtiment, étage..."
+          />
+        </div>
+
+
+        <!-- Code postal -->
+        <div class="form-group">
+          <label for="postalCode">
+            Code postal
+          </label>
+
+          <input
+            id="postalCode"
+            type="text"
+            name="postalCode"
+            placeholder="Ex : 44000"
+            inputmode="numeric"
+            maxlength="5"
+            pattern="[0-9]{1,5}"
+            (input)="onlyNumbers($event)"
+            />
+        </div>
+
+
+        <!-- Ville -->
+        <div class="form-group">
+          <label for="city">Ville</label>
+
+          <input
+            id="city"
+            type="text"
+            name="city"
+            placeholder="Entrez votre ville"
+          />
+        </div>
+
+
+        <!-- Pays -->
+        <div class="form-group">
+          <label for="country">Pays</label>
+
+          <input
+            id="country"
+            type="text"
+            name="country"
+            placeholder="Entrez votre pays"
+          />
+        </div>
+
+
+        <!-- Fonction -->
+        <div class="form-group">
+          <label for="job">Fonction</label>
+
+          <input
+            id="job"
+            type="text"
+            name="job"
+            placeholder="Entrez votre fonction"
+          />
+        </div>
+
+
+        <!-- Message -->
+        <p
+            id="message"
+            [class.success-message]="messageSuccess"
+        >
+            {{ message }}
+        </p>
+
+
+        <!-- Validation -->
+        <button
+          type="submit"
+          class="signup-button"
+        >
+          Valider l'inscription
+        </button>
+
+
+        <!-- Retour -->
+        <button
+          type="button"
+          class="back-button"
+          (click)="goBack()"
+        >
+          Retour
+        </button>
+
+      </form>
+
+    </div>
+
+  </main>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+
+    <p>
+      © 2026 Ashley RAKOTOARISOA
+    </p>
+
+  </footer>
+
+</div>

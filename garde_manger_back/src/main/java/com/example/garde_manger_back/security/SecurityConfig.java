@@ -27,7 +27,8 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/comptes/forgot-password",
                     "/comptes",
-                    "/sendEmail"
+                    "/sendEmail",
+                    "/login"
                 ).permitAll()
                 .anyRequest().authenticated()
             );

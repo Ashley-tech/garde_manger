@@ -1,0 +1,99 @@
+<div class="login-page">
+
+  <!-- Navbar fixe -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <span class="brand">Garde-manger</span>
+    </div>
+  </nav>
+
+  <!-- Seule cette partie peut défiler -->
+  <main class="main-content">
+
+    <div class="login-card">
+
+      <h1>Connexion</h1>
+
+      <p class="subtitle">
+        Connectez-vous à votre compte
+      </p>
+
+      <form (submit)="validate($event)">
+
+        <!-- Login -->
+        <div class="form-group">
+          <label for="login">Email</label>
+
+          <input
+            id="login"
+            type="email"
+            name="login"
+            placeholder="Entrez votre adresse email"
+            required
+          />
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+
+          <div class="password-container">
+            <input
+              id="password"
+              [type]="passwordVisible ? 'text' : 'password'"
+              name="password"
+              placeholder="Entrez votre mot de passe"
+              required
+            />
+
+            <button
+              type="button"
+              class="show-password-button"
+              (click)="togglePassword()"
+            >
+              {{ passwordVisible ? 'Masquer' : 'Afficher' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Mot de passe oublié -->
+        <div class="forgot-password">
+          <a href="#" (click)="$event.preventDefault()">
+            Mot de passe oublié ?
+          </a>
+        </div>
+
+        <!-- Message d'erreur -->
+        <p class="error_message">
+          {{ errorMessage }}
+        </p>
+
+        <!-- Connexion -->
+        <button
+          type="submit"
+          class="login-button"
+        >
+          Se connecter
+        </button>
+
+        <!-- Signup -->
+        <button
+          type="button"
+          class="signup-button"
+          (click)="goSignup()"
+        >
+          Créer un compte
+        </button>
+
+      </form>
+
+    </div>
+
+  </main>
+
+  <!-- Footer fixe -->
+  <footer class="footer">
+    <p>© 2026 Ashley RAKOTOARISOA</p>
+  </footer>
+
+</div>
