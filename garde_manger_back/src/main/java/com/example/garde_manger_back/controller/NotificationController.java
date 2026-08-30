@@ -1,7 +1,8 @@
 package com.example.garde_manger_back.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.garde_manger_back.config.EmailService;
 import com.example.garde_manger_back.dto.EmailBodyRequest;
@@ -17,7 +18,8 @@ public class NotificationController {
     }
 
     @PostMapping("/sendEmail")
-    public ResponseEntity<?> send(@RequestBody EmailBodyRequest request) {
+    public EmailResponse send(
+            @RequestBody EmailBodyRequest request) {
 
         EmailResponse sent = emailService.sendEmail(
                 //request.getFrom(),
@@ -26,11 +28,10 @@ public class NotificationController {
                 request.getText()
         );
 
-        if (sent.getSuccess() == true) {
-            return ResponseEntity.ok("Email envoyé !");
+        if (sent.getSuccess()) {
+            return new EmailResponse(true,"Messge envoyé");
         }
 
-        return ResponseEntity.internalServerError()
-                .body("Erreur lors de l'envoi de l'email.");
+        return new EmailResponse(false, "Erreur lors de l'envoi du mail");
     }
 }

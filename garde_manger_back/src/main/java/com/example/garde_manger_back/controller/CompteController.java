@@ -1,19 +1,25 @@
 package com.example.garde_manger_back.controller;
 
+import java.util.List;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.garde_manger_back.config.AuthService;
+import com.example.garde_manger_back.dto.CompteDTO;
+import com.example.garde_manger_back.dto.FindEmailRequest;
+import com.example.garde_manger_back.dto.LoginResponse;
 import com.example.garde_manger_back.entity.Compte;
 import com.example.garde_manger_back.entity.Produit;
 import com.example.garde_manger_back.service.CompteService;
-import com.example.garde_manger_back.config.AuthService;
-import com.example.garde_manger_back.dto.FindEmailRequest;
-
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-import com.example.garde_manger_back.dto.CompteDTO;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.garde_manger_back.dto.LoginResponse;
 
 @RestController
 @RequestMapping("/comptes")
