@@ -14,3 +14,7 @@ Commande à lancer en local :
 -.\mvnw spring-boot:run -Dspring-boot.run.profiles=local (CMD Windows)
 -.\mvnw spring-boot:run "-Dspring-boot.run.profiles=local" (PowerShell)
 -./mvnw spring-boot:run -Dspring-boot.run.profiles=local (Linux et MacOS)
+
+Front-end :
+-ng generate component [nom_du_composant] : Créer une nouvelle interface
+-Pour démarrer le serveur correctement : ng serve --host 0.0.0.0
