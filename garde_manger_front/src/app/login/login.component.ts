@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import Cookies from "js-cookie"
 
 @Component({
   selector: 'app-login',
@@ -19,10 +20,16 @@ export class LoginComponent {
     window.location.href = "/signup";
   }
 
+  goForgot(event: Event) : void{
+    event.preventDefault()
+    window.location.href = "forgot-password/email"
+  }
+
   async validate(event: Event): Promise<void> { 
     event.preventDefault(); 
     const form = event.target as HTMLFormElement; 
-    const formData = new FormData(form); 
+    const formData = new FormData(form);
+    const login = formData.get("login") as string;
     this.errorMessage = "";
     const response = await fetch("http://127.0.0.1:8080/login",{
       method: "POST",
@@ -30,7 +37,7 @@ export class LoginComponent {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: formData.get("login"),
+        email: login,
         password: formData.get("password")
       })
     })
@@ -38,7 +45,11 @@ export class LoginComponent {
     if (!data.success){
       this.errorMessage = "L'adresse email et le mot de passe saisi ne correspond à aucun compte"
     } else {
-
+      Cookies.set("compte_id",data.userId);
+      Cookies.set("compte_email",login)
+      //document.cookie = `id_compte=${data.userId}; path=/`;
+      //document.cookie = `email_compte=${login}; path=/`;
+      window.location.href = "dashboard"
     }
   }
 

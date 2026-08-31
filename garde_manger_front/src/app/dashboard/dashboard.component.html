@@ -1,0 +1,387 @@
+<div class="dashboard-page">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+
+    <div class="navbar-content">
+
+      <span class="brand">
+        Garde-manger
+      </span>
+
+      <div class="navbar-right">
+
+        <button
+            type="button"
+            class="email-button"
+            (click)="afficherProfil()"
+        >
+            {{ emailCompte }}
+        </button>
+
+        <button
+            type="button"
+            class="logout-button"
+            (click)="deconnexion()"
+        >
+            Déconnexion
+        </button>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+
+  <!-- Zone centrale -->
+  <main class="main-content">
+
+    <div class="dashboard-container">
+
+
+      <!-- Accueil -->
+
+      <section class="welcome-section">
+
+        <h1>
+          Bonjour 👋
+        </h1>
+
+        <p>
+          Voici l'état de votre garde-manger.
+        </p>
+
+      </section>
+
+
+      <!-- Message -->
+
+      <p
+        *ngIf="message"
+        class="message"
+      >
+        {{ message }}
+      </p>
+
+
+      <!-- Statistiques -->
+
+      <section class="statistics">
+
+
+        <div class="stat-card">
+
+          <span class="stat-number">
+            {{ nombreProduits }}
+          </span>
+
+          <span class="stat-label">
+            Produits
+          </span>
+
+        </div>
+
+
+        <div class="stat-card warning">
+
+          <span class="stat-number">
+            {{ nombreBientotPerimes }}
+          </span>
+
+          <span class="stat-label">
+            Bientôt périmés
+          </span>
+
+        </div>
+
+
+        <div class="stat-card danger">
+
+          <span class="stat-number">
+            {{ nombrePerimes }}
+          </span>
+
+          <span class="stat-label">
+            Produits périmés
+          </span>
+
+        </div>
+
+
+      </section>
+
+
+      <!-- Produits -->
+
+      <section class="products-section">
+
+
+        <div class="products-header">
+
+          <h2>
+            Mes produits
+          </h2>
+
+          <button
+            type="button"
+            class="add-button"
+            (click)="ajouterProduit()"
+          >
+            + Ajouter un produit
+          </button>
+
+        </div>
+
+
+        <!-- Aucun produit -->
+
+        <div
+          *ngIf="produits.length === 0 && !message"
+          class="empty-message"
+        >
+          <p>
+            Votre garde-manger est vide.
+          </p>
+
+          <p>
+            Ajoutez votre premier produit.
+          </p>
+        </div>
+
+
+        <!-- Tableau -->
+
+        <div
+          *ngIf="produits.length > 0"
+          class="table-container"
+        >
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Produit
+                </th>
+
+                <th>
+                  Marque
+                </th>
+
+                <th>
+                  Type
+                </th>
+
+                <th>
+                  Date de consommation
+                </th>
+
+                <th>
+                  Date de péremption
+                </th>
+
+                <th>
+                  État
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <tr
+                *ngFor="let produit of produits"
+              >
+
+                <td>
+                  {{ produit.libelle }}
+                </td>
+
+                <td>
+                  {{ produit.marque }}
+                </td>
+
+                <td>
+                  {{ produit.type }}
+                </td>
+
+                <td>
+                  {{ formaterDate(produit.dateConsommation) }}
+                </td>
+
+                <td
+                  [class]="getClassePeremption(produit.datePeremption)"
+                >
+                  {{ formaterDate(produit.datePeremption) }}
+                </td>
+
+                <td>
+                  {{ produit.etat }}
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+  <!-- Confirmation de déconnexion -->
+<div
+  *ngIf="confirmationDeconnexionVisible"
+  class="confirmation-overlay"
+>
+
+  <div class="confirmation-modal">
+
+    <h2>
+      Déconnexion
+    </h2>
+
+    <p>
+      Êtes-vous sûr de vouloir vous déconnecter ?
+    </p>
+
+    <div class="confirmation-buttons">
+
+      <button
+        type="button"
+        class="confirm-button"
+        (click)="confirmerDeconnexion()"
+      >
+        Oui
+      </button>
+
+      <button
+        type="button"
+        class="cancel-button"
+        (click)="annulerDeconnexion()"
+      >
+        Non
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- Footer -->
+
+  <footer class="footer">
+
+    <p>
+      © 2026 Ashley RAKOTOARISOA
+    </p>
+
+  </footer>
+  <!-- Fenêtre du profil -->
+<div
+  *ngIf="profilVisible"
+  class="profile-overlay"
+  (click)="fermerProfil()"
+>
+
+  <div
+    class="profile-modal"
+    (click)="$event.stopPropagation()"
+  >
+
+    <div class="profile-header">
+
+      <h2>
+        Informations du compte
+      </h2>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="fermerProfil()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      *ngIf="compte"
+      class="profile-content"
+    >
+
+      <div class="profile-row">
+        <span class="profile-label">Nom</span>
+        <span>{{ compte.nom }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Prénom</span>
+        <span>{{ compte.prenom }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Email</span>
+        <span>{{ compte.email }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Date de naissance</span>
+        <span>{{ formaterDate(compte.dateNaissance) }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Mot de passe</span>
+        <span>********</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Adresse</span>
+        <span>{{ compte.adresse }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Complément d'adresse</span>
+        <span>{{ compte.adresseComp }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Code postal</span>
+        <span>{{ compte.cp }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Ville</span>
+        <span>{{ compte.ville }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Pays</span>
+        <span>{{ compte.pays }}</span>
+      </div>
+
+      <div class="profile-row">
+        <span class="profile-label">Fonction</span>
+        <span>{{ compte.fonction }}</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>

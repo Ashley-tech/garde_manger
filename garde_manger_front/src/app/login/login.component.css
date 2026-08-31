@@ -295,7 +295,8 @@
 
   align-items: center;
 
-  justify-content: center;
+  justify-content: right;
+  padding-right: 10px;
 
   z-index: 10;
 }
