@@ -279,6 +279,44 @@
   </div>
 
 </div>
+<div
+  *ngIf="confirmationDeleteAccountVisible"
+  class="confirmation-overlay"
+>
+
+  <div class="confirmation-modal">
+
+    <h2>
+      Suppression du compte
+    </h2>
+
+    <p>
+      Êtes-vous sûr de vouloir supprimer votre compte ? (Vous ne pourrez plus vous reconnecter avec ce compte)
+    </p>
+
+    <div class="confirmation-buttons">
+
+      <button
+        type="button"
+        class="confirm-button"
+        (click)="deleteAccount()"
+      >
+        Oui
+      </button>
+
+      <button
+        type="button"
+        class="cancel-button"
+        (click)="cancelDeleteAccount()"
+      >
+        Non
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
   <!-- Footer -->
 
@@ -376,6 +414,22 @@
       <div class="profile-row">
         <span class="profile-label">Fonction</span>
         <span>{{ compte.fonction }}</span>
+      </div>
+      <div class="info-buttons">
+        <button
+          type="button"
+          class="confirm-button"
+          
+        >
+          Modifier
+        </button>
+        <button
+          type="button"
+          class="confirm-button"
+          (click)="confirmDeleteAccount()"
+        >
+          Supprimer le compte
+        </button>
       </div>
 
     </div>

@@ -39,6 +39,7 @@ export class ForgotPasswordComponent {
       this.messageSuccess = false;
       return;
     }
+    const hoteString = "localhost";
     const response1 = await fetch("http://127.0.0.1:8080/sendEmail", {
       method: "POST",
       headers: {
@@ -47,7 +48,7 @@ export class ForgotPasswordComponent {
       body: JSON.stringify({
         to: formData.get("email"),
         subject: "Lien de réinitialisation",
-        text: "Bonjour,\n\n Veuillez cliquer sur ce <a href='http://127.0.0.1:4200/forgot-password/new?compte="+data.userId+"'>lien</a> pour modifier votre mot de passe.\n\nCordialement,\n\nGarde-manger"
+        text: "Bonjour,\n\n Veuillez cliquer sur ce <a href='http://"+hoteString+":4200/forgot-password/new?compte="+data.userId+"'>lien</a> pour modifier votre mot de passe.\n\nCordialement,\n\nGarde-manger"
       })
     })
     if (!response1.ok){

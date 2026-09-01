@@ -51,6 +51,8 @@ export class DashboardComponent implements OnInit {
 
   confirmationDeconnexionVisible = false;
 
+  confirmationDeleteAccountVisible = false;
+
   async ngOnInit(): Promise<void> {
 
     const idCookie = Cookies.get('compte_id');
@@ -216,6 +218,45 @@ export class DashboardComponent implements OnInit {
     Cookies.remove('compte_email');
 
     window.location.href = '';
+  }
+
+  cancelDeleteAccount(): void {
+    this.confirmationDeleteAccountVisible = false;
+    //this.afficherProfil();
+  }
+
+  confirmDeleteAccount(): void {
+    // this.fermerProfil();
+    this.confirmationDeleteAccountVisible = true;
+  }
+
+  async deleteAccount(): Promise<void> {
+    try {
+
+      const response = await fetch(
+        `http://127.0.0.1:8080/comptes/${this.idCompte}`,{
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'DELETE'
+        }
+      );
+
+      if (!response.ok) {
+        alert("Impossible de supprimer votre compte.");
+        return;
+      }
+
+      const data = await response.json();
+
+      this.confirmerDeconnexion();
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Impossible de contacter le serveur.");
+    }
   }
 
   annulerDeconnexion(): void {

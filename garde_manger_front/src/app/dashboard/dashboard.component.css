@@ -56,6 +56,22 @@
   gap: 20px;
 }
 
+.edit-button {
+  border: none;
+
+  background-color: transparent;
+
+  color: white;
+
+  padding: 0;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
 .email {
   font-size: 14px;
 }
@@ -604,7 +620,7 @@ tbody tr:hover {
   color: #555;
 }
 
-.confirmation-buttons {
+.confirmation-buttons,.info-buttons {
   display: flex;
 
   justify-content: center;
