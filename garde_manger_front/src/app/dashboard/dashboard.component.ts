@@ -37,6 +37,12 @@ export class DashboardComponent implements OnInit {
   produits: Produit[] = [];
 
   message = '';
+  messageAddProduit = "";
+  messageSuccessA = false;
+  messageModifierProduit = "";
+  messageSuccessU = false;
+
+  produitId = 0;
 
   idCompte = 0;
   emailCompte = '';
@@ -51,7 +57,15 @@ export class DashboardComponent implements OnInit {
 
   confirmationDeconnexionVisible = false;
 
+  modif_produit_title = "";
+
+  formUpdateProduitVisible = false;
+
   confirmationDeleteAccountVisible = false;
+  confirmationDeleteProductVisible = false;
+  formAddProduitVisible = false;
+
+  confirmationDeleteProductMessage = '';
 
   async ngOnInit(): Promise<void> {
 
@@ -195,7 +209,22 @@ export class DashboardComponent implements OnInit {
 
 
   ajouterProduit(): void {
-    // À implémenter plus tard
+    this.formAddProduitVisible = true;
+    this.messageAddProduit = "";
+    this.messageSuccessA = false;
+  }
+
+  annulerAjoutProduit(): void {
+    this.formAddProduitVisible = false;
+  }
+
+  annulerModifierProduit(): void {
+    this.formUpdateProduitVisible = false;
+  }
+
+  async openModifierProduit(id: number): Promise<void>{
+    this.formUpdateProduitVisible = true;
+    this.modif_produit_title = "Modification du produit n°"+id;
   }
 
 
@@ -263,4 +292,85 @@ export class DashboardComponent implements OnInit {
     this.confirmationDeconnexionVisible = false;
   }
 
+  async confirmerDeleteProduct(produitId: number): Promise<void> {
+    try {
+      const response = await fetch("http://127.0.0.1:8080/produits/${produitId}", {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        alert("Impossible de supprimer le produit.");
+        return;
+      }
+
+      const data = await response.json();
+      this.annulerDeleteProduct();
+
+    } catch (error) {
+      console.error(error);
+      alert("Impossible de contacter le serveur.");
+    }
+  }
+
+  annulerDeleteProduct(): void {
+    this.confirmationDeleteProductMessage = '';
+    this.confirmationDeleteProductVisible = false;
+  }
+
+  deleteProduct(produitId: number): void {
+    this.produitId = produitId;
+    this.confirmationDeleteProductMessage = 'Êtes-vous sûr de vouloir supprimer le produit n°' + produitId + ' ?';
+    this.confirmationDeleteProductVisible = true;
+  }
+
+  async addProduit(event: Event): Promise<void> { 
+    event.preventDefault(); 
+    const form = event.target as HTMLFormElement; 
+    const formData = new FormData(form); 
+    this.messageAddProduit = "";
+    this.messageSuccessA = false;
+    const d = new Date();
+    const dateYYMMDDActuel = d.toISOString().split('T')[0];
+    const dateConsommation = formData.get("dateConsommation") as string;
+    const datePeremption = formData.get("datePeremption") as string;
+    var etat = "";
+    if (dateConsommation > dateYYMMDDActuel) {
+      this.messageAddProduit = "La date de consommation ne peut pas être dans le futur.";
+      return;
+    }
+    if (dateConsommation == ""){
+      if (datePeremption == ""){
+        etat = "Non périssable";
+      } else {
+        if (datePeremption < dateYYMMDDActuel) {
+          this.messageAddProduit = "La date de péremption ne peut pas être dans le passé. Vous devriez renseigner la date de consommation dans ce cas.";
+          return;
+        } else {
+          etat = "Non consommé";
+        }
+      }
+    } else {
+      if (datePeremption == ""){
+        etat = "Consommé";
+      } else {
+        if (datePeremption < dateYYMMDDActuel) {
+          etat = "Périmé";
+        } else if (dateConsommation == dateYYMMDDActuel) {
+          etat = "En cours de consommation";
+        } else if (datePeremption > dateYYMMDDActuel && dateConsommation < dateYYMMDDActuel) {
+          etat = "Consommé";
+        } else {
+          etat = "Non consommé";
+        }
+      }
+    }
+  }
+
+  async modifierProduit(event: Event): Promise<void> { 
+    event.preventDefault(); 
+    const form = event.target as HTMLFormElement; 
+    const formData = new FormData(form); 
+    this.messageModifierProduit = "";
+    this.messageSuccessU = false;
+  }
 }
