@@ -1,13 +1,14 @@
 package com.example.garde_manger_back.repository;
 
 import com.example.garde_manger_back.entity.Produit;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface ProduitRepository extends JpaRepository<Produit, Integer> {
 
-    List<Produit> findByProprietaireId(Integer proprietaireId);
+    List<Produit> findByProprietaireId(Integer proprietaireId, Sort sort);
     void deleteByProprietaireId(Integer compteId);
 
 }

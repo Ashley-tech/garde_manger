@@ -10,6 +10,7 @@ public class ProduitDTO {
     private LocalDate datePeremption;
     private String etat;
     private Integer proprietaireId;
+    private boolean success;
 
     public Integer getProprietaireId(){
         return proprietaireId;
@@ -65,5 +66,13 @@ public class ProduitDTO {
 
     public void setEtat(String etat){
         this.etat = etat;
+    }
+
+    public void setSuccess(boolean success){
+        this.success = success;
+    }
+
+    public boolean getSuccess(){
+        return success;
     }
 }

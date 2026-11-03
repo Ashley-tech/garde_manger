@@ -1,14 +1,15 @@
 package com.example.garde_manger_back.service;
 
-import com.example.garde_manger_back.entity.Compte;
-import com.example.garde_manger_back.entity.Produit;
-import com.example.garde_manger_back.repository.*;
-
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import com.example.garde_manger_back.dto.ProduitDTO;
+import com.example.garde_manger_back.entity.Compte;
+import com.example.garde_manger_back.entity.Produit;
+import com.example.garde_manger_back.repository.CompteRepository;
+import com.example.garde_manger_back.repository.ProduitRepository;
 
 @Service
 public class ProduitService {
@@ -22,7 +23,7 @@ public class ProduitService {
     }
 
     public List<Produit> getAllProduits() {
-        return produitRepository.findAll();
+        return produitRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Produit getProduitById(Integer id) {
@@ -57,9 +58,9 @@ public class ProduitService {
     public Produit modifierProduit(Integer id,ProduitDTO dto) {
 
         Produit produit = produitRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Produit introuvable")
-                );
+            .orElseThrow(() ->
+                new RuntimeException("Produit introuvable")
+            );
 
         if (dto.getLibelle() != null) {
             produit.setLibelle(dto.getLibelle());

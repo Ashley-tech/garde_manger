@@ -2,16 +2,16 @@ package com.example.garde_manger_back.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.garde_manger_back.dto.CompteDTO;
 import com.example.garde_manger_back.entity.Compte;
 import com.example.garde_manger_back.entity.Produit;
 import com.example.garde_manger_back.repository.CompteRepository;
 import com.example.garde_manger_back.repository.ProduitRepository;
-
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CompteService {
@@ -30,11 +30,14 @@ public class CompteService {
         if (!compteRepository.existsById(compteId)) {
             throw new RuntimeException("Compte introuvable");
         }
-        return produitRepository.findByProprietaireId(compteId);
+        return produitRepository.findByProprietaireId(
+                compteId,
+                Sort.by(Sort.Direction.ASC, "id")
+        );
     }
 
     public List<Compte> getAllComptes() {
-        return compteRepository.findAll();
+        return compteRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Compte getCompteById(Integer id) {

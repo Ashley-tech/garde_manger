@@ -357,9 +357,10 @@
         <label for="type">Type de produit</label>
         <select id="type" name="type" required>
           <option value="">--Sélectionner un type--</option>
-          <option value="Biscuit">Biscuit(s)</option>
           <option value="Boisson">Boisson</option>
           <option value="Céréales">Céréales</option>
+          <option value="Épicerie salée">Épicerie salée</option>
+          <option value="Épicerie sucrée">Épicerie sucrée</option>
           <option value="Pain">Pain</option>
         </select>
       </div>
@@ -398,36 +399,40 @@
           ×
         </button>
     </div>
-    <form class="product-form" (submit)="$event.preventDefault()">
+    <form class="product-form" (submit)="modifierProduit($event)">
       <div class="form-group">
         <label for="libelleU">Nom du produit*</label>
-        <input id="libelleU" name="libelleU" type="text" placeholder="Ex : Biscuits au chocolat" required />
+        <input id="libelleU" name="libelleU" type="text" [value]="produitEnModification?.libelle ?? ''" required />
       </div>
       <div class="form-group">
         <label for="marqueU">Marque</label>
-        <input id="marqueU" name="marqueU" type="text" placeholder="Ex : Nestlé" />
+        <input id="marqueU" name="marqueU" type="text" [value]="produitEnModification?.marque ?? ''" placeholder="Ex : Nestlé" />
       </div>
       <div class="form-group">
         <label for="typeU">Type de produit</label>
-        <select id="typeU" name="typeU">
+        <select id="typeU" name="typeU" [value]="produitEnModification?.type ?? ''">
           <option value="">--Sélectionner un type--</option>
-          <option value="Biscuit">Biscuit(s)</option>
           <option value="Boisson">Boisson</option>
           <option value="Céréales">Céréales</option>
+          <option value="Épicerie salée">Épicerie salée</option>
+          <option value="Épicerie sucrée">Épicerie sucrée</option>
           <option value="Pain">Pain</option>
         </select>
       </div>
       <div class="form-group">
         <label for="dateConsommationU">Date de consommation</label>
-        <input id="dateConsommationU" name="dateConsommationU" type="date" />
+        <input id="dateConsommationU" name="dateConsommationU" type="date" [value]="produitEnModification?.dateConsommation ?? ''" />
       </div>
       <div class="form-group">
         <label for="datePeremptionU">Date de péremption</label>
-        <input id="datePeremptionU" name="datePeremptionU" type="date" />
+        <input id="datePeremptionU" name="datePeremptionU" type="date" [value]="produitEnModification?.datePeremption ?? ''" />
       </div>
+      <p class="message" [class.success-message]="messageSuccessA">
+        {{ messageUpdateProduit }}
+      </p>
       <div class="product-form-buttons">
         <button type="button" class="cancel-button" (click)="annulerModifierProduit()">Annuler</button>
-        <button type="submit" class="confirm-button">Ajouter ce produit</button>
+        <button type="submit" class="confirm-button">Modifier ce produit</button>
       </div>
     </form>
   </div>

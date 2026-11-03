@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
 
   message = '';
   messageAddProduit = "";
+  messageUpdateProduit = "";
   messageSuccessA = false;
   messageModifierProduit = "";
   messageSuccessU = false;
@@ -57,6 +58,8 @@ export class DashboardComponent implements OnInit {
 
   confirmationDeconnexionVisible = false;
 
+  produitEnModification: Produit | null = null;
+
   modif_produit_title = "";
 
   formUpdateProduitVisible = false;
@@ -66,6 +69,20 @@ export class DashboardComponent implements OnInit {
   formAddProduitVisible = false;
 
   confirmationDeleteProductMessage = '';
+
+  async updateProduitState(id: number, etat: string): Promise<void> {
+    const response = await fetch(`http://127.0.0.1:8080/produits/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ etat })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Impossible de mettre à jour l'état du produit n°${id}.`);
+    }
+  }
 
   async ngOnInit(): Promise<void> {
 
@@ -131,7 +148,24 @@ export class DashboardComponent implements OnInit {
         return;
       }
 
-      this.produits = await response.json();
+      const produits: Produit[] = await response.json();
+      const dateReference = this.dateCourante();
+      const produitsActualises = produits.map(produit => ({
+        ...produit,
+        etat: this.calculerEtatProduit(
+          produit.dateConsommation,
+          produit.datePeremption,
+          dateReference
+        )
+      }));
+
+      await Promise.all(
+        produitsActualises
+          .filter((produit, index) => produit.etat !== produits[index].etat)
+          .map(produit => this.updateProduitState(produit.id, produit.etat))
+      );
+
+      this.produits = produitsActualises;
 
       this.nombreProduits = this.produits.length;
 
@@ -142,8 +176,51 @@ export class DashboardComponent implements OnInit {
       console.error(error);
 
       this.message =
-        "Impossible de contacter le serveur.";
+        "Impossible de charger les produits ou de mettre à jour leur état.";
     }
+  }
+
+  calculerEtatProduit(
+    dateConsommation: string,
+    datePeremption: string,
+    dateReference = this.dateCourante()
+  ): string {
+    if (!dateConsommation && !datePeremption) {
+      return "Non périssable";
+    }
+
+    if (dateConsommation && !datePeremption) {
+      return "Consommé";
+    }
+
+    if (dateConsommation && dateConsommation === datePeremption) {
+      return "Consommé et périmé";
+    }
+
+    if (datePeremption < dateReference) {
+      return "Périmé";
+    }
+
+    const dateLimite = new Date(`${dateReference}T00:00:00`);
+    dateLimite.setDate(dateLimite.getDate() + 7);
+    const dateLimiteFormatee = this.formaterDateISO(dateLimite);
+
+    if (datePeremption <= dateLimiteFormatee) {
+      return "Bientôt périmé";
+    }
+
+    return "Valide";
+  }
+
+  private dateCourante(): string {
+    return this.formaterDateISO(new Date());
+  }
+
+  private formaterDateISO(date: Date): string {
+    const annee = date.getFullYear();
+    const mois = String(date.getMonth() + 1).padStart(2, "0");
+    const jour = String(date.getDate()).padStart(2, "0");
+    return `${annee}-${mois}-${jour}`;
   }
 
 
@@ -152,22 +229,10 @@ export class DashboardComponent implements OnInit {
     this.nombrePerimes = 0;
     this.nombreBientotPerimes = 0;
 
-    const aujourdHui = new Date();
-
-    const dansSeptJours = new Date();
-    dansSeptJours.setDate(aujourdHui.getDate() + 7);
-
     for (const produit of this.produits) {
-
-      if (!produit.datePeremption) {
-        continue;
-      }
-
-      const datePeremption = new Date(produit.datePeremption);
-
-      if (datePeremption < aujourdHui) {
+      if (produit.etat === "Périmé" || produit.etat === "Consommé et périmé") {
         this.nombrePerimes++;
-      } else if (datePeremption <= dansSeptJours) {
+      } else if (produit.etat === "Bientôt périmé") {
         this.nombreBientotPerimes++;
       }
     }
@@ -206,8 +271,6 @@ export class DashboardComponent implements OnInit {
 
     return 'normal';
   }
-
-
   ajouterProduit(): void {
     this.formAddProduitVisible = true;
     this.messageAddProduit = "";
@@ -222,9 +285,17 @@ export class DashboardComponent implements OnInit {
     this.formUpdateProduitVisible = false;
   }
 
-  async openModifierProduit(id: number): Promise<void>{
+  openModifierProduit(id: number): void {
+    const produit = this.produits.find(p => p.id === id);
+
+    if (!produit) {
+      this.message = "Impossible de trouver ce produit.";
+      return;
+    }
+
+    this.produitEnModification = produit;
+    this.modif_produit_title = `Modification du produit n°${id}`;
     this.formUpdateProduitVisible = true;
-    this.modif_produit_title = "Modification du produit n°"+id;
   }
 
 
@@ -343,26 +414,72 @@ export class DashboardComponent implements OnInit {
         etat = "Non périssable";
       } else {
         if (datePeremption < dateYYMMDDActuel) {
-          this.messageAddProduit = "La date de péremption ne peut pas être dans le passé. Vous devriez renseigner la date de consommation dans ce cas.";
-          return;
+          etat = "Périmé";
+        } else if (datePeremption <= new Date(d.setDate(d.getDate() + 7)).toISOString().split('T')[0]) {
+          etat = "Bientôt périmé";
         } else {
-          etat = "Non consommé";
+          etat = "Valide";
         }
       }
     } else {
       if (datePeremption == ""){
         etat = "Consommé";
       } else {
-        if (datePeremption < dateYYMMDDActuel) {
+        if (dateConsommation > datePeremption) {
+          this.messageAddProduit = "La date de consommation ne peut pas être après la date de péremption.";
+          return;
+        } else if (dateConsommation > dateYYMMDDActuel) {
+          this.messageAddProduit = "La date de consommation ne peut pas être dans le futur.";
+          return;
+        } else if (dateConsommation == datePeremption) {
+          etat = "Consommé et périmé";
+        } else if (datePeremption < dateYYMMDDActuel) {
           etat = "Périmé";
-        } else if (dateConsommation == dateYYMMDDActuel) {
-          etat = "En cours de consommation";
-        } else if (datePeremption > dateYYMMDDActuel && dateConsommation < dateYYMMDDActuel) {
-          etat = "Consommé";
+        } else if (datePeremption <= new Date(d.setDate(d.getDate() + 7)).toISOString().split('T')[0]) {
+          etat = "Bientôt périmé";
         } else {
-          etat = "Non consommé";
+          etat = "Valide";
         }
       }
+    }
+    try {
+      var corp = {
+          libelle: formData.get("libelle"),
+          marque: formData.get("marque"),
+          type: formData.get("type"),
+          dateConsommation: dateConsommation,
+          datePeremption: datePeremption,
+          etat: etat,
+          proprietaireId: this.idCompte
+        }
+        console.log(corp)
+      const response = await fetch("http://127.0.0.1:8080/produits", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(corp)
+      });
+      if (!response.ok) {
+        this.messageAddProduit = "Une erreur s'est produite. Merci de réessayer ultérieurement.";
+        this.messageSuccessA = false;
+        return;
+      }
+      const data = await response.json();
+      console.log(data)
+      //if (data.success) {
+        this.messageAddProduit = "Le produit a été ajouté avec succès.";
+        this.messageSuccessA = true;
+        await this.chargerProduits();
+        this.formAddProduitVisible = false;
+      /*} else {
+        this.messageAddProduit = "Une erreur s'est produite. Merci de réessayer ultérieurement.";
+        this.messageSuccessA = false;
+      }*/
+    } catch (error) {
+      console.error(error);
+      this.messageAddProduit = "Impossible de contacter le serveur.";
+      this.messageSuccessA = false;
     }
   }
 
@@ -372,5 +489,83 @@ export class DashboardComponent implements OnInit {
     const formData = new FormData(form); 
     this.messageModifierProduit = "";
     this.messageSuccessU = false;
+    const d = new Date();
+    const dateYYMMDDActuel = d.toISOString().split('T')[0];
+    const dateConsommation = formData.get("dateConsommationU") as string;
+    const datePeremption = formData.get("datePeremptionU") as string;
+    var etat = "";
+    if (dateConsommation > dateYYMMDDActuel) {
+      this.messageModifierProduit = "La date de consommation ne peut pas être dans le futur.";
+      return;
+    }
+    if (dateConsommation == ""){
+      if (datePeremption == ""){
+        etat = "Non périssable";
+      } else {
+        if (datePeremption < dateYYMMDDActuel) {
+          etat = "Périmé";
+        } else if (datePeremption <= new Date(d.setDate(d.getDate() + 7)).toISOString().split('T')[0]) {
+          etat = "Bientôt périmé";
+        } else {
+          etat = "Valide";
+        }
+      }
+    } else {
+      if (datePeremption == ""){
+        etat = "Consommé";
+      } else {
+        if (dateConsommation > datePeremption) {
+          this.messageAddProduit = "La date de consommation ne peut pas être après la date de péremption.";
+          return;
+        } else if (dateConsommation > dateYYMMDDActuel) {
+          this.messageAddProduit = "La date de consommation ne peut pas être dans le futur.";
+          return;
+        } else if (dateConsommation == datePeremption) {
+          etat = "Consommé et périmé";
+        } else if (datePeremption < dateYYMMDDActuel) {
+          etat = "Périmé";
+        } else if (datePeremption <= new Date(d.setDate(d.getDate() + 7)).toISOString().split('T')[0]) {
+          etat = "Bientôt périmé";
+        } else {
+          etat = "Valide";
+        }
+      }
+    }
+    try {
+      const response = await fetch(`http://127.0.0.1:8080/produits/${this.produitEnModification?.id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          libelle: formData.get("libelleU"),
+          marque: formData.get("marqueU"),
+          type: formData.get("typeU"),
+          dateConsommation: dateConsommation,
+          datePeremption: datePeremption,
+          etat: etat
+        })
+      });
+      if (!response.ok) {
+        this.messageModifierProduit = "Une erreur s'est produite. Merci de réessayer ultérieurement.";
+        this.messageSuccessU = false;
+        return;
+      }
+      const data = await response.json();
+      console.log(data)
+      //if (data.success) {
+        this.messageModifierProduit = "Le produit a été modifié avec succès.";
+        this.messageSuccessU = true;
+        await this.chargerProduits();
+        this.formUpdateProduitVisible = false;
+      /*} else {
+        this.messageModifierProduit = "Une erreur s'est produite. Merci de réessayer ultérieurement.";
+        this.messageSuccessU = false;
+      }*/
+    } catch (error) {
+      console.error(error);
+      this.messageModifierProduit = "Impossible de contacter le serveur.";
+      this.messageSuccessU = false;
+    }
   }
 }
