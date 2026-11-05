@@ -328,6 +328,97 @@
 
 </div>
 <div
+  *ngIf="formModifierCompte"
+  class="confirmation-overlay"
+>
+  <div class="product-form-modal" (click)="$event.stopPropagation()">
+    <div class="product-form-header">
+      <h2>
+        Modification de votre compte
+      </h2>
+      <button
+          type="button"
+          class="close-button"
+          (click)="annulerModifierCompte()"
+        >
+          ×
+        </button>
+    </div>
+    <form class="product-form" (submit)="modifierCompte($event)">
+      <div class="form-group">
+        <label for="nom">Nom*</label>
+        <input id="nom" name="nom" type="text" [value]="compte?.nom ?? ''" required />
+      </div>
+      <div class="form-group">
+        <label for="prenom">Prénom*</label>
+        <input id="prenom" name="prenom" type="text" [value]="compte?.prenom ?? ''" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email*</label>
+        <input id="email" name="email" type="email" [value]="compte?.email ?? ''" required />
+      </div>
+      <div class="form-group">
+        <label for="dateNaissance">Date de naissance*</label>
+        <input id="dateNaissance" name="dateNaissance" type="date" [value]="compte?.dateNaissance ?? ''" required />
+      </div>
+      <div class="form-group">
+        <label for="motDePasse">Mot de passe</label>
+        <input id="motDePasse" name="motDePasse" type="password" placeholder="(Aucune modification)" />
+        <button
+            type="button"
+            class="show-password-button"
+            (click)="togglePassword()"
+          >
+            {{ passwordVisible ? 'Masquer' : 'Afficher' }}
+          </button>
+      </div>
+      <div class="form-group">
+        <label for="motDePasseConfirmation">Confirmation du mot de passe</label>
+        <input id="motDePasseConfirmation" name="motDePasseConfirmation" type="password" placeholder="(Aucune modification)" />
+        <button
+            type="button"
+            class="show-password-button"
+            (click)="togglePasswordConfirmation()"
+          >
+            {{ passwordConfirmationVisible ? 'Masquer' : 'Afficher' }}
+          </button>
+      </div>
+      <div class="form-group">
+        <label for="adresse">Adresse</label>
+        <input id="adresse" name="adresse" type="text" [value]="compte?.adresse ?? ''" />
+      </div>
+      <div class="form-group">
+        <label for="adresseComp">Complément d'adresse</label>
+        <input id="adresseComp" name="adresseComp" type="text" [value]="compte?.adresseComp ?? ''" />
+      </div>
+      <div class="form-group">
+        <label for="cp">Code postal</label>
+        <input id="cp" name="cp" type="text" [value]="compte?.cp ?? ''"/>
+      </div>
+      <div class="form-group">
+        <label for="ville">Ville</label>
+        <input id="ville" name="ville" type="text" [value]="compte?.ville ?? ''" />
+      </div>
+      <div class="form-group">
+        <label for="pays">Pays</label>
+        <input id="pays" name="pays" type="text" [value]="compte?.pays ?? ''" />
+      </div>
+      <div class="form-group">
+        <label for="fonction">Fonction</label>
+        <input id="fonction" name="fonction" type="text" [value]="compte?.fonction ?? ''" />
+      </div>
+      <!-- Add other fields as necessary -->
+      <p class="message" [class.success-message]="messageSuccessA">
+        {{ messageUpdateCompte }}
+      </p>
+      <div class="product-form-buttons">
+        <button type="button" class="cancel-button" (click)="annulerModifierCompte()">Annuler</button>
+        <button type="submit" class="confirm-button">Modifier le compte</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div
   *ngIf="formAddProduitVisible"
   class="confirmation-overlay"
 >
@@ -577,7 +668,7 @@
         <button
           type="button"
           class="confirm-button"
-          
+          (click) = "openModifierCompte()"
         >
           Modifier
         </button>

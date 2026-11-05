@@ -1,11 +1,14 @@
 package com.example.garde_manger_back.dto;
 
+import java.time.LocalDate;
+
 public class CompteDTO {
 
     private String nom;
     private String prenom;
     private String email;
     private String mdp;
+    private LocalDate dateNaissance;
     private String adresse;
     private String adresseComp;
     private String cp;
@@ -43,6 +46,14 @@ public class CompteDTO {
 
     public void setMdp(String mdp){
         this.mdp = mdp;
+    }
+
+    public LocalDate getDateNaissance(){
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(LocalDate dateNaissance){
+        this.dateNaissance = dateNaissance;
     }
 
     public String getAdresse(){

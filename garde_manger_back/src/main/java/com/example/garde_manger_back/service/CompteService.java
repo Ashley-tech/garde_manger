@@ -83,6 +83,10 @@ public class CompteService {
             compte.setMdpCrypted(passwordEncoder.encode(dto.getMdp()));
         }
 
+        if (dto.getDateNaissance() != null) {
+            compte.setDateNaissance(dto.getDateNaissance());
+        }
+
         if (dto.getAdresse() != null) {
             compte.setAdresse(dto.getAdresse());
         }

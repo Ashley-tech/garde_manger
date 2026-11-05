@@ -42,6 +42,9 @@ export class DashboardComponent implements OnInit {
   messageSuccessA = false;
   messageModifierProduit = "";
   messageSuccessU = false;
+  messageUpdateCompte = "";
+  passwordConfirmationVisible = false;
+  passwordVisible = false;
 
   produitId = 0;
 
@@ -67,6 +70,8 @@ export class DashboardComponent implements OnInit {
   confirmationDeleteAccountVisible = false;
   confirmationDeleteProductVisible = false;
   formAddProduitVisible = false;
+
+  formModifierCompte = false;
 
   confirmationDeleteProductMessage = '';
 
@@ -281,6 +286,124 @@ export class DashboardComponent implements OnInit {
     this.formAddProduitVisible = false;
   }
 
+  annulerModifierCompte(): void {
+    this.formModifierCompte = false;
+    this.profilVisible = true;
+  }
+
+  async modifierCompte(event: Event): Promise<void> {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    this.messageUpdateCompte = "";
+    var oldPassword = this.compte?.mdp || '';
+    let oldEmail = this.compte?.email || '';
+    console.log(oldEmail);
+    var selectedPassword = "";
+    if (formData.get("motDePasse") !== formData.get("motDePasseConfirmation")) {
+      this.messageUpdateCompte = "Les 2 mots de passe saisis sont différents. Veuillez recommencer";
+      return;
+    }
+    if (formData.get("motDePasse") !== "" && ((formData.get("motDePasse") as string).length < 8 || (formData.get("motDePasse") as string).length > 50)) {
+      this.messageUpdateCompte = "Le mot de passe doit contenir entre 8 et 50 caractères.";
+      return;
+    }
+    if (formData.get("email") !== oldEmail) {
+      const response = await fetch("http://127.0.0.1:8080/comptes/forgot-password",{
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.get("email")
+        })
+      })
+      if (!response.ok){
+        this.message = "Une erreur s'est produite lors de la vérification de l'adresse email. Merci de réessayer ultérieurement."
+        return;
+      }
+      const data = await response.json()
+      if (data.success){
+        this.message = "L'adresse email saisi existe déjà dans notre base de données."
+        return;
+      }
+    }
+    if (formData.get("motDePasse") !== "") {
+      selectedPassword = formData.get("motDePasse") as string;
+    } else {
+      selectedPassword = oldPassword;
+    }
+    console.log(formData.get('dateNaissance'))
+  const response0 = await fetch(`http://127.0.0.1:8080/comptes/${this.compte?.id}`,{
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nom: formData.get("nom"),
+        prenom: formData.get("prenom"),
+        email: formData.get("email"),
+        mdp: selectedPassword,
+        dateNaissance: formData.get('dateNaissance'),
+        adresse: formData.get('address'),
+        adresseComp: formData.get('addressComp'),
+        cp: formData.get('cp'),
+        ville: formData.get('ville'),
+        pays: formData.get('pays'),
+        fonction: formData.get('fonction')
+      })
+    })
+    if (!response0.ok){
+      this.messageUpdateCompte = "Une erreur s'est produite lors de la mise à jour de votre compte. Merci de réessayer ultérieurement.";
+      return;
+    } else {
+      Cookies.set('compte_email', formData.get("email") as string);
+      if (formData.get("email") !== oldEmail) {
+        const response1 = await fetch("http://127.0.0.1:8080/sendEmail", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.get("email"),
+            subject: "Modification de votre compte Garde-Manger",
+            message: "Bonjour " + formData.get("prenom") + ",\n\nVotre compte Garde-Manger a été modifié avec succès. Votre nouvelle adresse email est : " + formData.get("email") + ".\n\nSi vous n'êtes pas à l'origine de cette modification, veuillez nous contacter immédiatement.\n\nCordialement,\nL'équipe Garde-Manger"
+          })
+        })
+        if (!response1.ok){
+          this.messageUpdateCompte = "Information : Votre compte a été mis à jour avec succès, mais nous n'avons pas pu vous envoyer un email de confirmation.";
+        } else {
+          this.messageUpdateCompte = "Votre compte a été mis à jour avec succès. Nous vous avons envoyé un email de confirmation.";
+        }
+      } else {
+        this.messageUpdateCompte = "Votre compte a été mis à jour avec succès.";
+      }
+      this.formModifierCompte = false;
+      this.profilVisible = true;
+      await this.chargerCompte();
+    }
+  }
+
+  togglePasswordConfirmation(): void {
+    const passwordConfirmationInput = document.getElementById('motDePasseConfirmation') as HTMLInputElement;
+    if (passwordConfirmationInput) {
+      passwordConfirmationInput.type = passwordConfirmationInput.type === 'password' ? 'text' : 'password';
+    }
+  }
+
+  togglePassword(): void {
+    const passwordInput = document.getElementById('motDePasse') as HTMLInputElement;
+    if (passwordInput) {
+      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    }
+  }
+
+  openModifierCompte(): void {
+    this.messageUpdateCompte = "";
+    this.profilVisible = false;
+    this.formModifierCompte = true;
+  }
+
   annulerModifierProduit(): void {
     this.formUpdateProduitVisible = false;
   }
@@ -365,7 +488,7 @@ export class DashboardComponent implements OnInit {
 
   async confirmerDeleteProduct(produitId: number): Promise<void> {
     try {
-      const response = await fetch("http://127.0.0.1:8080/produits/${produitId}", {
+      const response = await fetch(`http://127.0.0.1:8080/produits/${produitId}`, {
         method: 'DELETE'
       });
 
