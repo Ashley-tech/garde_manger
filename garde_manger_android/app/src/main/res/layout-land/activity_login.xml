@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/logologin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/app_name"
+        android:textColor="@color/bleu_nav"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextMelLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Adresse mail"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logologin" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Mot de passe"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toStartOf="@id/displaypwdloginb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextMelLogin" />
+
+    <Button
+        android:id="@+id/displaypwdloginb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/grey_7"
+        android:text="Afficher le mot de passe"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/editTextPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editTextPassword"
+        app:layout_constraintTop_toTopOf="@id/editTextPassword" />
+
+    <Button
+        android:id="@+id/forgot_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="Mot de passe oublié"
+        android:textColor="@color/bleu_nav_2"
+        app:layout_constraintStart_toStartOf="@id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword" />
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/grey_white_ea"
+        android:text="Créer un compte"
+        android:textColor="@color/bleu_nav_2"
+        app:layout_constraintEnd_toStartOf="@id/login_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/forgot_button" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/bleu_nav"
+        android:text="Se connecter"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/signup_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/signup_button"
+        app:layout_constraintTop_toTopOf="@id/signup_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
