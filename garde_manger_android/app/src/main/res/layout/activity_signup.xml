@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+
+    <TextView
+        android:id="@+id/logosignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/bleu_nav"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/signup_title"/>
+
+    <TextView
+        android:id="@+id/signup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inscription"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editTextLN"
+        app:layout_constraintTop_toBottomOf="@id/logosignup"/>
+
+    <EditText
+        android:id="@+id/editTextLN"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Nom*"
+        app:layout_constraintBottom_toTopOf="@id/editTextEmail"
+        app:layout_constraintEnd_toStartOf="@id/editTextFN"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signup_title"/>
+
+    <EditText
+        android:id="@+id/editTextFN"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Prénom*"
+        app:layout_constraintTop_toBottomOf="@id/signup_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editTextLN"
+        app:layout_constraintBottom_toTopOf="@id/editTextEmailReconfirm"/>
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Mail*"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/editTextEmailReconfirm"
+        app:layout_constraintTop_toBottomOf="@id/editTextLN"
+        app:layout_constraintBottom_toTopOf="@id/editTextNewPassword"/>
+
+    <EditText
+        android:id="@+id/editTextEmailReconfirm"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Mail à reconfirmer*"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editTextEmail"
+        app:layout_constraintBottom_toTopOf="@id/pwddisplaybuttonsignup"
+        app:layout_constraintTop_toBottomOf="@id/editTextFN"/>
+
+    <EditText
+        android:id="@+id/editTextNewPassword"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Mot de passe*"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@id/editTextNewPasswordReconfirm"
+        app:layout_constraintEnd_toStartOf="@+id/pwddisplaybuttonsignup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextEmail" />
+
+    <Button
+        android:id="@+id/pwddisplaybuttonsignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey_7"
+        android:text="Dé-masquer"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/pwdreconfirmdisplaybuttonsignup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editTextNewPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextEmailReconfirm"/>
+
+    <EditText
+        android:id="@+id/editTextNewPasswordReconfirm"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Mot de passe à reconfirmer*"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toStartOf="@+id/pwdreconfirmdisplaybuttonsignup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNewPassword"
+        app:layout_constraintBottom_toTopOf="@id/editTextDN"/>
+
+    <Button
+        android:id="@+id/pwdreconfirmdisplaybuttonsignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey_7"
+        android:text="Dé-masquer"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/editTextNewPasswordReconfirm"
+        app:layout_constraintTop_toBottomOf="@id/pwddisplaybuttonsignup"
+        app:layout_constraintBottom_toTopOf="@+id/editTextAddress"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextDN"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Date de naissance*"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/editTextAddressComplement"
+        app:layout_constraintEnd_toStartOf="@+id/editTextAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNewPasswordReconfirm" />
+
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        android:hint="Adresse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editTextDN"
+        app:layout_constraintTop_toBottomOf="@id/pwdreconfirmdisplaybuttonsignup"
+        app:layout_constraintBottom_toTopOf="@id/editTextCP"/>
+
+    <EditText
+        android:id="@+id/editTextAddressComplement"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        android:hint="Complément d'adresse"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/editTextCP"
+        app:layout_constraintTop_toBottomOf="@id/editTextDN"
+        app:layout_constraintBottom_toTopOf="@id/editTextCity"/>
+
+    <EditText
+        android:id="@+id/editTextCP"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Code postal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editTextPays"
+        app:layout_constraintTop_toBottomOf="@id/editTextAddress"
+        app:layout_constraintStart_toEndOf="@id/editTextAddressComplement"/>
+
+    <EditText
+        android:id="@+id/editTextCity"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Ville"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFunction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/editTextPays"
+        app:layout_constraintTop_toBottomOf="@id/editTextAddressComplement"/>
+
+    <EditText
+        android:id="@+id/editTextPays"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Pays"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/editTextCP"
+        app:layout_constraintStart_toEndOf="@id/editTextCity"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFunction"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextFunction"
+        android:layout_width="0dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:hint="Votre fonction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/validate_signup_button"
+        app:layout_constraintTop_toBottomOf="@id/editTextPays" />
+
+    <Button
+        android:id="@+id/retour_button_signup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Retour"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/bleu_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/validate_signup_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFunction" />
+
+    <Button
+        android:id="@+id/validate_signup_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Valider l'inscription"
+        android:backgroundTint="@color/bleu_nav"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/retour_button_signup"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFunction" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

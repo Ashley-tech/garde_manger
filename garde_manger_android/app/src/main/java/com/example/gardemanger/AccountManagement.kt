@@ -58,6 +58,17 @@ class AccountManagement(private val co: Context) {
         editor.apply()
     }
 
+    fun logout() {
+        editor.clear()
+        editor.apply()
+        val intent = Intent(co, LoginActivity::class.java)
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+        co.startActivity(intent)
+    }
+
     /*fun accountSessionManage(
         compteId: String,
         compteEmail: String
@@ -83,17 +94,6 @@ class AccountManagement(private val co: Context) {
                 co.finish()
             }
         }
-    }
-
-    fun logout() {
-        editor.clear()
-        editor.apply()
-        val intent = Intent(co, LoginActivity::class.java)
-        intent.flags =
-            Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-        co.startActivity(intent)
     }
 
     fun deleteAccount() {

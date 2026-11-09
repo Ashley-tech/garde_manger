@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+
+    <TextView
+        android:id="@+id/logosignup"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/bleu_nav"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/signup_title"/>
+
+    <TextView
+        android:id="@+id/signup_title"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:gravity="center"
+        android:text="Inscription"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/editTextFN"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logosignup" />
+
+    <EditText
+        android:id="@+id/editTextLN"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:hint="Nom*"
+        android:inputType="textPersonName"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/editTextFN"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signup_title"
+        app:layout_constraintBottom_toTopOf="@id/editTextNewPassword"/>
+
+    <EditText
+        android:id="@+id/editTextFN"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:hint="Prénom*"
+        android:inputType="textPersonName"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/pwddisplaybuttonsignup"
+        app:layout_constraintEnd_toStartOf="@id/editTextEmail"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextLN"
+        app:layout_constraintTop_toBottomOf="@id/signup_title" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:hint="Email*"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNewPasswordReconfirm"
+        app:layout_constraintEnd_toStartOf="@id/editTextEmailReconfirm"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextFN"
+        app:layout_constraintTop_toBottomOf="@id/signup_title" />
+
+    <EditText
+        android:id="@+id/editTextEmailReconfirm"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Email à reconfirmer*"
+        android:inputType="textEmailAddress"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/pwdreconfirmdisplaybuttonsignup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextEmail"
+        app:layout_constraintTop_toBottomOf="@id/signup_title" />
+
+    <EditText
+        android:id="@+id/editTextNewPassword"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:hint="Nouveau mot de passe*"
+        android:inputType="textPassword"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/pwddisplaybuttonsignup"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextLN"
+        app:layout_constraintBottom_toTopOf="@id/editTextDN"/>
+
+    <Button
+        android:id="@+id/pwddisplaybuttonsignup"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:backgroundTint="@color/grey_7"
+        android:text="Dé-masquer"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextAddress"
+        app:layout_constraintEnd_toStartOf="@id/editTextNewPasswordReconfirm"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextNewPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextLN" />
+
+    <EditText
+        android:id="@+id/editTextNewPasswordReconfirm"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:hint="Confirmer le mot de passe*"
+        android:inputType="textPassword"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextAddressComplement"
+        app:layout_constraintEnd_toStartOf="@id/pwdreconfirmdisplaybuttonsignup"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@id/pwddisplaybuttonsignup"
+        app:layout_constraintTop_toBottomOf="@id/editTextLN" />
+
+    <Button
+        android:id="@+id/pwdreconfirmdisplaybuttonsignup"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/grey_7"
+        android:text="Dé-masquer"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextCP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextNewPasswordReconfirm"
+        app:layout_constraintTop_toBottomOf="@id/editTextLN" />
+
+    <EditText
+        android:id="@+id/editTextDN"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:hint="Date de naissance*"
+        android:inputType="date"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/editTextAddress"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPays"
+        app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />
+
+    <EditText
+        android:id="@+id/editTextAddress"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:hint="Adresse"
+        android:inputType="textPostalAddress"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPays"
+        app:layout_constraintEnd_toStartOf="@id/editTextAddressComplement"
+        app:layout_constraintHorizontal_weight="1.5"
+        app:layout_constraintStart_toEndOf="@id/editTextDN"
+        app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />
+
+    <EditText
+        android:id="@+id/editTextAddressComplement"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:hint="Complément d'adresse"
+        android:inputType="textPostalAddress"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFunction"
+        app:layout_constraintEnd_toStartOf="@id/editTextCP"
+        app:layout_constraintHorizontal_weight="1.5"
+        app:layout_constraintStart_toEndOf="@id/editTextAddress"
+        app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />
+
+    <EditText
+        android:id="@+id/editTextCP"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Code postal"
+        android:inputType="number"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFunction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="0.8"
+        app:layout_constraintStart_toEndOf="@id/editTextAddressComplement"
+        app:layout_constraintTop_toBottomOf="@id/editTextNewPassword" />
+
+    <EditText
+        android:id="@+id/editTextCity"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:hint="Ville"
+        android:inputType="text"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/retour_button_signup"
+        app:layout_constraintEnd_toStartOf="@id/editTextPays"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextDN" />
+
+    <EditText
+        android:id="@+id/editTextPays"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="4dp"
+        android:hint="Pays"
+        android:inputType="text"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/retour_button_signup"
+        app:layout_constraintEnd_toStartOf="@id/editTextFunction"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextCity"
+        app:layout_constraintTop_toBottomOf="@id/editTextDN" />
+
+    <EditText
+        android:id="@+id/editTextFunction"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Votre fonction"
+        android:inputType="text"
+        android:paddingHorizontal="6dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/validate_signup_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/editTextPays"
+        app:layout_constraintTop_toBottomOf="@id/editTextDN" />
+
+    <Button
+        android:id="@+id/retour_button_signup"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="@color/white"
+        android:text="Retour"
+        android:textColor="@color/bleu_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextPays"
+        app:layout_constraintEnd_toStartOf="@id/validate_signup_button"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/validate_signup_button"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/bleu_nav"
+        android:text="Valider l'inscription"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/editTextFunction"
+        app:layout_constraintStart_toEndOf="@id/retour_button_signup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
