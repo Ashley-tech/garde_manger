@@ -58,6 +58,11 @@ export class SignupComponent {
       return;
     }
 
+    if (formData.get("postalCode") !== "" && !this.regex("^[0-9]+$", formData.get("postalCode") as string)){
+      this.message = "Le code postal ne doit contenir que des chiffres."
+      return;
+    }
+
     const response = await fetch("http://127.0.0.1:8080/comptes/forgot-password",{
       method: "POST",
       headers: {

@@ -308,6 +308,10 @@ export class DashboardComponent implements OnInit {
       this.messageUpdateCompte = "Le mot de passe doit contenir entre 8 et 50 caractères.";
       return;
     }
+    if (formData.get("cp") !== "" && !this.regex("^[0-9]+$", formData.get("cp") as string)) {
+      this.messageUpdateCompte = "Le code postal ne doit contenir que des chiffres.";
+      return;
+    }
     if (formData.get("email") !== oldEmail) {
       const response = await fetch("http://127.0.0.1:8080/comptes/forgot-password",{
         method: "POST",
@@ -402,6 +406,11 @@ export class DashboardComponent implements OnInit {
     this.messageUpdateCompte = "";
     this.profilVisible = false;
     this.formModifierCompte = true;
+  }
+
+  regex(pattern: string, value: string): boolean {
+    const regex = new RegExp(pattern);
+    return regex.test(value);
   }
 
   annulerModifierProduit(): void {
