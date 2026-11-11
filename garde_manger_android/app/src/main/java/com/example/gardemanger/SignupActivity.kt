@@ -88,7 +88,7 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.validate_signup_button -> {
                 if (mdp.text.toString() == "" || email.text.toString() == "" || mdp_reconfirm.text.toString() == "" || emailr.text.toString() == "" || ln.text.toString() == "" || fn.text.toString() == "" || naissance.text.toString() == ""){
-                    Toast.makeText(this, "Merci de renseigner obligatoirement votre adresse mail et le mot de passe.", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Merci de renseigner obligatoirement votre adresse mail et le mot de passe.", Toast.LENGTH_SHORT).show()
                     return
                 }
             }

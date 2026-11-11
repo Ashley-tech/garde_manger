@@ -15,6 +15,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var display : Button;
     lateinit var mdp : EditText;
     lateinit var email : EditText;
+    lateinit var quitter : Button;
     var passwordVisible = false;
     public val READ_TIMEOUT : Int = 15000
     public val CONNECTION_TIMEOUT : Int = 15000
@@ -32,6 +33,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         mdp = findViewById(R.id.editTextPassword)
         forgot = findViewById(R.id.forgot_button)
         forgot.setOnClickListener(this);
+        quitter = findViewById(R.id.quit_button)
+        quitter.setOnClickListener(this)
     }
 
     override fun onClick(p0: View) {
@@ -51,8 +54,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(i);
             }
             R.id.forgot_button -> {
-                //i = Intent(this,ForgotActivity::class.java)
-                //startActivity(i)
+                i = Intent(this,ForgotPasswordActivity::class.java)
+                startActivity(i)
             }
             R.id.login_button -> {
                 if (mdp.text.toString() == "" || email.text.toString() == ""){
@@ -64,6 +67,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         mdp.text.toString()
                     )*/
                 }
+            }
+            R.id.quit_button -> {
+                finish();
             }
         }
     }

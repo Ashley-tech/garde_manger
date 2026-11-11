@@ -88,8 +88,20 @@
         android:text="Se connecter"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/signup_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/quit_button"
         app:layout_constraintStart_toEndOf="@id/signup_button"
         app:layout_constraintTop_toTopOf="@id/signup_button" />
+
+    <Button
+        android:id="@+id/quit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/grey_white_ea"
+        android:text="Quitter"
+        android:textColor="@color/bleu_nav_2"
+        app:layout_constraintBottom_toBottomOf="@id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/login_button"
+        app:layout_constraintTop_toTopOf="@id/login_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
