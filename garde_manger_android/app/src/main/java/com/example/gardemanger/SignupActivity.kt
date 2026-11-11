@@ -355,7 +355,7 @@ class SignupActivity : AppCompatActivity(), View.OnClickListener {
                 "Votre inscription a été effectué avec succès.",
                 Toast.LENGTH_LONG
             ).show()
-            AsyncMailAuto().execute(email.text.toString(),"Inscription effectué","Bonjour,\\n\\n Nous vous confirmons votre inscription pour faire le suivi de votre stock d'aliments.\\n\\nCordialement,\\n\\nGarde-manger")
+            AsyncMailAuto().execute(email.text.toString(),"Inscription effectué","Bonjour,\n\n Nous vous confirmons votre inscription pour faire le suivi de votre stock d'aliments.\n\nCordialement,\n\nGarde-manger")
             finish()
         }
     }

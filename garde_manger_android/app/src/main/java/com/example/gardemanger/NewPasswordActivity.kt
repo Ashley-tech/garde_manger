@@ -212,7 +212,106 @@ class NewPasswordActivity : AppCompatActivity(), View.OnClickListener {
             val intent = Intent(this@NewPasswordActivity, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
+            AsyncMailAuto().execute(email,"Mot de passe réinitialisé","Bonjour,\n\n Nous vous confirmons que votre mot de passe a été réinitialisé. Vous pouvez désormais vous reconnecter avec votre nouveau mot de passe.\n\nCordialement,\n\nGarde-manger");
             startActivity(intent)
+        }
+    }
+
+    private inner class AsyncMailAuto : AsyncTask<String, Void, String>() {
+        private val pdLoading = ProgressDialog(this@NewPasswordActivity)
+        private var co: HttpURLConnection? = null
+        private var url: URL? = null
+        private var idc: String? = null
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg strings: String?): String {
+            try {
+                url = URL("http://10.0.2.2:8080/sendEmail")
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+                return "false"
+            }
+
+            try {
+                co = url!!.openConnection() as HttpURLConnection
+                co!!.readTimeout = 15000
+                co!!.connectTimeout = 15000
+                co!!.requestMethod = "POST"
+                co!!.setRequestProperty(
+                    "Content-Type",
+                    "application/json; charset=UTF-8"
+                )
+
+                co!!.doInput = true
+                co!!.doOutput = true
+
+                val requestBody = JSONObject()
+                    .put("to", strings[0])
+                    .put("subject", strings[1])
+                    .put("text", strings[2])
+                    .toString()
+
+                val os: OutputStream = co!!.outputStream
+
+                val writer = BufferedWriter(OutputStreamWriter(os, "UTF-8"))
+
+                writer.write(requestBody)
+                writer.flush()
+                writer.close()
+
+                os.close()
+
+                co!!.connect()
+
+            } catch (e: IOException) {
+                e.printStackTrace()
+                return "Exception"
+            }
+            try {
+                val responseCode = co!!.responseCode
+                Log.d("HTTP_CODE", responseCode.toString())
+                return if (responseCode in 200..299) {
+                    val input: InputStream = co!!.inputStream
+                    val reader = BufferedReader(InputStreamReader(input))
+                    val result = StringBuilder()
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        result.append(line)
+                    }
+                    result.toString()
+                } else {
+                    "Unsuccessful"
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                return "Exception"
+            } finally {
+                co?.disconnect()
+            }
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            pdLoading.dismiss()
+
+            if (result == null) return
+            Log.d("message", result)
+            if (result == "Unsuccessful" || result == "Exception" || result == "false") {
+                Toast.makeText(
+                    this@NewPasswordActivity,
+                    "Vous pouvez désormais vous connecter avec votre adresse email et votre mot de passe, mais nous n'avons pas pu vous envoyer un email de confirmation.",
+                    Toast.LENGTH_LONG
+                ).show()
+                return
+            }
+
+            Toast.makeText(
+                this@NewPasswordActivity,
+                "Nous vous avons envoyé un email de confirmation. Vous pouvez désormais vous connecter avec votre adresse email et votre mot de passe.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
